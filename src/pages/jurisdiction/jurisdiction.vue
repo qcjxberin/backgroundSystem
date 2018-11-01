@@ -1,0 +1,18 @@
+<template>
+    <div>模块jurisdiction</div>
+</template>
+<script lang='ts'>
+    import Vue from 'vue'
+    import Component from 'vue-class-component'
+
+    @Component({})
+    export default class Jurisdiction extends Vue {
+        protected year: any = new Date().getFullYear()
+        protected mounted () {
+            window.console.log('模块jurisdiction')
+        }
+    }
+</script>
+<style type='text/scss' lang='scss' scoped>
+    @import url('../../style/index.scss');
+</style>
