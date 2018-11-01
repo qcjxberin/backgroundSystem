@@ -115,7 +115,8 @@
         }
 
         protected mounted () {
-            this._routerList = this.$store.getters.getRouterList.slice()
+            // this._routerList = this.$store.getters.getRouterList.slice()
+            this._routerList = this.moduleList
         }
 
     }

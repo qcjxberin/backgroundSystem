@@ -12,7 +12,7 @@
             </Breadcrumb>
         </Col>
         <Col span="16" class='headerRight'>
-            <i class='headerUserName'>hi! {{userName}}　</i>
+            <i class='headerUserName'>hi! {{userName?userName:''}}　</i>
             <i class="iconfont headerIcon" :title='fullscreen?"取消全屏":"全屏"' @click='handleFullScreen'>{{fullscreen?'':''}}</i>
             <i class="iconfont headerIcon" title='设置'></i>
             <i class="iconfont headerIcon" title='退出' @click='logoutShow = true'></i>
@@ -27,13 +27,14 @@
     import Vue from 'vue'
     import Component from 'vue-class-component'
     import api from '@/util/api'
-    import { clearSession, getSession } from '@/util/util'
+    import { clearSession } from '@/util/util' // getSession
 
     @Component({})
     export default class Header extends Vue {
         protected logoutShow: boolean = false
         protected fullscreen: boolean = false
-        protected userName: string = getSession('sessionData').username
+        // protected userName: string = getSession('sessionData').username
+        protected userName: string = ''
 
         protected handleFullScreen () {
             const docuMent: any = document
