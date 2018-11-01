@@ -74,11 +74,7 @@
         protected getMe () {
             api.me({}).then(( respon: any ) => {
                 if (respon.success === true) {
-                    this.$store.dispatch('setData', {
-                        data: respon.data
-                    }).then(() => {
-                        this.$router.push('/')
-                    })
+                    this.$router.push('/')
                 } else {
                     this.$Message.success('数据请求失败,请重试')
                 }
