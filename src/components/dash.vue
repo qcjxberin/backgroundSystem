@@ -11,7 +11,7 @@
             window.console.log('Dash')
         }
     }
-</script>qq
+</script>
 <style type='text/scss' lang='scss' scoped>
     @import url('../style/index.scss');
     /*底部区域*/

@@ -1,6 +1,6 @@
 <template>
     <Layout class="home">
-        <SideBar class='sidebar'></SideBar>
+        <SideBar v-if=modules class='sidebar' :routesList = 'modules' :actives = 'actives'></SideBar>
         <div class="main">
             <Header></Header>
             <TagsNav></TagsNav>
@@ -18,6 +18,7 @@
     import TagsNav from '@/components/tagsNav.vue'
     import SideBar from '@/components/sideBar.vue'
     import Footer from '@/components/footer.vue'
+    import moduleList from '@/assets/js/modules'
 
     @Component({
         components: {
@@ -31,6 +32,8 @@
         constructor ( props: any ) {
             super(props)
         }
+        protected modules: any = moduleList  // 获取左侧的导航模块
+        protected actives: string = this.modules[0].child[0].url
     }
 </script>
 <style type='text/scss' lang='scss' scoped>

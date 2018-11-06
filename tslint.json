@@ -5,6 +5,7 @@
   ],
   "linterOptions": {
     "exclude": [
+      "node_modules",
       "node_modules/**"
     ]
   },
@@ -119,7 +120,7 @@
       20
     ],
     // 禁止使用废弃（被标识了 @deprecated）的 API
-    "deprecation": true,
+    "deprecation": false,
     // 一个缩进必须用四个空格替代
     "indent": [
       true,
