@@ -33,6 +33,11 @@
       "es2015.promise"
     ]
   },
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**"
+    ]
+  },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
@@ -41,7 +46,6 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules",
     "node_modules/**"
   ]
 }

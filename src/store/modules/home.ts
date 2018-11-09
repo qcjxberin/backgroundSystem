@@ -1,5 +1,5 @@
 /**
- * A模块
+ * home模块
  * @type {{}}
  */
 import { setSession, getSession, isEmpty } from '@/util/util'
