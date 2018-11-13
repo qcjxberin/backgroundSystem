@@ -33,9 +33,9 @@
       "es2015.promise"
     ]
   },
-  "linterOptions": {
+  "cliOptions": {
     "exclude": [
-      "node_modules/**"
+      "node_modules/*.ts"
     ]
   },
   "include": [
@@ -44,8 +44,5 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules/**"
   ]
 }

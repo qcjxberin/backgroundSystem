@@ -1,8 +1,8 @@
 <template>
     <div class='wrapperMenu'>
-        <h2 class='title'>后台管理系统</h2>
+        <h2 class='title'>{{titleTip}}</h2>
         <Menu theme="light" class='sideBarMenu' accordion @on-select='setActive' :active-name="actives">
-            <template v-if='routesList' v-for='(item, index) in routesList'>
+            <template v-if='moduleList' v-for='(item, index) in moduleList'>
                 <Submenu :name="index" class='sideBarSubmenu' :key='index' @click=''>
                     <template slot="title" class='sidebarTitle' :title='item.content'>
                         <i class="iconfont">{{item.iconfont}}</i>
@@ -18,28 +18,23 @@
         </Menu>
     </div>
 </template>
-<script lang='ts'>
+<script lang='ts' type='text/tsx'>
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
 @Component({
   props: {
-  	routesList: Array,
-    actives: String
+    moduleList: Array,
+    titleTip: String
   }
 })
 export default class SideBar extends Vue {
+	protected actives: string = ''
     protected setActive(e: any) {
-        // this.actives = e;
-        // this.$store.dispatch('setRouterList', {
-        //   routerList: this.routesList.slice()
-        // });
+    	console.log(e)
     }
-  protected mounted() {
-    const _this = this;
-    console.log((_this as any).routesList);
-    console.log((_this as any).actives);
-  }
+    // protected mounted (){
+    // }
 }
 </script>
 <style type='text/scss' lang='scss'>

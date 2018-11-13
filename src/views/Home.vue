@@ -1,6 +1,6 @@
 <template>
     <Layout class="home">
-        <SideBar v-if=modules class='sidebar' :routesList = 'modules' :actives = 'actives'></SideBar>
+        <SideBar v-if=moduleList class='sidebar' :moduleList = 'moduleList' :titleTip = 'titleTip'></SideBar>
         <div class="main">
             <Header></Header>
             <TagsNav></TagsNav>
@@ -32,8 +32,9 @@
         constructor ( props: any ) {
             super(props)
         }
-        protected modules: any = moduleList  // 获取左侧的导航模块
-        protected actives: string = this.modules[0].child[0].url
+        protected titleTip = '后台管理系统'
+        protected moduleList: any = moduleList  // 获取左侧的导航模块
+        // protected actives: string = this.modules[0].child[0].url
     }
 </script>
 <style type='text/scss' lang='scss' scoped>

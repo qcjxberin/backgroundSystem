@@ -70,6 +70,19 @@
       true,
       "ignore-same-line"
     ],
+    "valid-jsdoc":[
+
+      0,
+
+      {
+
+        "requireParamDescription":true,
+
+        "requireReturnDescription":true
+
+      }
+
+    ],
     // for in 内部必须有 hasOwnProperty
     "forin": true,
     // 禁止在分支条件判断中有赋值操作

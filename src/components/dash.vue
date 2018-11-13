@@ -1,5 +1,5 @@
 <template>
-    <div class='dash'>qqqqqqqqqqqqqqqqqqqqqqqqqq</div>
+    <div class='dash'>content</div>
 </template>
 <script lang='ts'>
     import Vue from 'vue'

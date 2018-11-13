@@ -13,7 +13,7 @@
         </Col>
         <Col span="16" class='headerRight'>
             <i class='headerUserName'>hi! {{userName?userName:''}}　</i>
-            <i class="iconfont headerIcon" :title='fullscreen?"取消全屏":"全屏"' @click='handleFullScreen'>{{fullscreen?'':''}}</i>
+            <i class="iconfont headerIcon" :title='fullscreen?"取消全屏":"全屏"' @click='screen()'>{{fullscreen?'':''}}</i>
             <i class="iconfont headerIcon" title='设置'></i>
             <i class="iconfont headerIcon" title='退出' @click='logoutShow = true'></i>
         </Col>
@@ -27,45 +27,16 @@
     import Vue from 'vue'
     import Component from 'vue-class-component'
     import api from '@/util/api'
-    import { clearSession } from '@/util/util' // getSession
+    import { clearSession, haddleFullScreen } from '@/util/util' // getSession
 
     @Component({})
     export default class Header extends Vue {
         protected logoutShow: boolean = false
         protected fullscreen: boolean = false
-        // protected userName: string = getSession('sessionData').username
         protected userName: string = ''
 
-        protected handleFullScreen () {
-            const docuMent: any = document
-            const element: any = document.documentElement
-            if (this.fullscreen) {
-                if (docuMent.exitFullscreen) {
-                    docuMent.exitFullscreen()
-                } else if (docuMent.webkitCancelFullScreen) {
-                    docuMent.webkitCancelFullScreen()
-                } else if (docuMent.mozCancelFullScreen) {
-                    docuMent.mozCancelFullScreen()
-                } else if (docuMent.msExitFullscreen) {
-                    docuMent.msExitFullscreen()
-                }
-            } else if (!this.fullscreen) {
-                if (element.requestFullscreen) {
-                    element.requestFullscreen()
-                } else if (element.webkitRequestFullScreen) {
-                    element.webkitRequestFullScreen()
-                } else if (element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen()
-                } else if (element.msRequestFullscreen) {
-                    // IE11
-                    element.msRequestFullscreen()
-                }
-            }
-            this.fullscreen = !this.fullscreen
-        }
-
         protected layout () {
-            api.logout(this.$store.getters.getData.mobile, true).then(( respon: any ) => {
+            api.logout(this.$store.getters.getData.mobile).then(( respon: any ) => {
                 if (respon.success === true) {
                     this.$Message.success(respon.message)
                     this.logoutShow = false
@@ -74,7 +45,9 @@
                 }
             })
         }
-
+        protected screen () {
+            this.fullscreen = haddleFullScreen(this.fullscreen)
+        }
         // protected mounted () {
         // }
 
@@ -104,6 +77,7 @@
         .ivu-breadcrumb {
             display: inline-block;
             margin-left: 15px;
+            min-width: 330px;
         }
         .ivu-icon-ios-home-outline {
             vertical-align: text-bottom;

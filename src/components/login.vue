@@ -6,26 +6,26 @@
             </FormItem>
             <FormItem prop="user">
                 <Input type="text" v-model="dataInfo.username" placeholder="用户名">
-                <Icon type="ios-person-outline" slot="prepend"></Icon>
+                    <Icon type="ios-person-outline" slot="prepend"></Icon>
                 </Input>
             </FormItem>
             <FormItem prop="password">
-                <Input type="password" v-model="dataInfo.password" placeholder="密码"  autocomplete='off'>
-                <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                <Input type="password" v-model="dataInfo.password" placeholder="密码" autocomplete='off'>
+                    <Icon type="ios-lock-outline" slot="prepend"></Icon>
                 </Input>
             </FormItem>
             <FormItem class='loading'>
                 <Button type="primary" @click="getLogin('loginInfo')" long>登 录</Button>
             </FormItem>
         </Form>
-        <div class="copyright">2014-2018 © 北京易推云网络科技有限公司</div>
+        <div class="copyright">2014-2018 © 北京好欣晴移动医疗科技有限公司</div>
     </div>
 </template>
 <script lang='ts'>
     import Vue from 'vue'
     import Component from 'vue-class-component'
     import api from '@/util/api'
-    import { eventUtil } from '@/util/util'
+    import {eventUtil} from '@/util/util'
 
     @Component({})
     export default class Login extends Vue {
@@ -43,15 +43,15 @@
             ]
         }
 
-        protected getLogin ( name: string ) {
+        protected getLogin(name: string) {
             if (!name) return
-            (this.$refs[name] as any).validate(( valid: any ) => {
+            (this.$refs[name] as any).validate((valid: any) => {
                 if (valid) {
                     api.login({
                         mobile: this.dataInfo.username,
                         password: this.dataInfo.password,
                         platform: 'PC'
-                    }).then(( respon: any ) => {
+                    }).then((respon: any) => {
                         if (respon.success === true) {
                             this.$store.dispatch('setToken', {
                                 token: respon.data.access_token
@@ -62,7 +62,7 @@
                         } else {
                             this.$Message.success('登录失败,请重试')
                         }
-                    }).catch(( respon ) => {
+                    }).catch((respon) => {
                         this.$Message.success('登录失败,请重试')
                     })
                 } else {
@@ -71,8 +71,8 @@
             })
         }
 
-        protected getMe () {
-            api.me({}).then(( respon: any ) => {
+        protected getMe() {
+            api.me({}).then((respon: any) => {
                 if (respon.success === true) {
                     this.$router.push('/')
                 } else {
@@ -83,14 +83,15 @@
             })
         }
 
-        protected mounted () {
+        protected mounted() {
             const _this = this
-            eventUtil.addHandler(document.body, 'keyup', ( e: any ) => {
+            eventUtil.addHandler(document.body, 'keyup', (e: any) => {
                 if ((e.keyCode || e.which || e.charCode) === 13) {
                     _this.getLogin('loginInfo')
                 }
             })
         }
+
     }
 </script>
 <style type='text/scss' lang='scss' scoped>
@@ -100,6 +101,7 @@
         width: 100%;
         height: 100%;
         background-color: #2d3a4b;
+
         .title {
             font-size: 26px;
             font-weight: 400;
@@ -108,17 +110,20 @@
             text-align: center;
             font-weight: bold;
         }
+
         .ivu-form {
             position: absolute;
             left: 0;
             right: 0;
-            width: 400px;
+            width: 370px;
             padding: 35px 35px 15px 35px;
             margin: 120px auto;
         }
+
         .loading {
             text-align: right;
         }
+
         .copyright {
             text-align: center;
             margin: 0 auto;

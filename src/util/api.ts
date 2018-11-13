@@ -1,13 +1,26 @@
-import { axiosHttp } from '@/util/ajax'
+import {http} from '@/util/ajax'
 
 export default {
-    login ( parmas: any, bool?: boolean ) {
-        return axiosHttp('/login', 'post', parmas, bool) // 登录
+    login(parma: any) {
+        return http({
+            uri: '/login',
+            type: 'post',
+            parmas: parma
+        }) // 登录
     },
-    me ( parmas: any, bool?: boolean ) {
-        return axiosHttp('/me', 'get', parmas, bool) // 获取个人信息
+    me(parma: any) {
+        return http({
+            uri: '/me',
+            type: 'get',
+            parmas: parma
+        }) // 获取个人信息
     },
-    logout ( parmas: any, bool?: boolean ) {
-        return axiosHttp('/logout', 'get', parmas, bool) // 登出
+    logout (parma: any) {
+        return http({
+            uri: '/logout',
+            type: 'get',
+            params: parma,
+            bool: true
+        })
     }
 }

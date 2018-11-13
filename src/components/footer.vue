@@ -1,5 +1,5 @@
 <template>
-    <div class='footer'>北京易推云网络科技有限公司 <strong>Copyright &copy; {{year}}</strong></div>
+    <div class='footer'>北京好欣晴移动医疗科技有限公司 <strong>Copyright &copy; {{year}}</strong></div>
 </template>
 <script lang='ts'>
     import Vue from 'vue'

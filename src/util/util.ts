@@ -1,19 +1,22 @@
-/*
- * 转成小写
- * */
-export const toLowerCase = ( str: string ): any => {
+/**
+ * @param str
+ * 换成小写
+ */
+export const toLowerCase = (str: string): any => {
     if (str !== '') return str.toLocaleLowerCase()
 }
-/*
+/**
+ *
+ * @param str
  * 转成大写
- * */
-export const toUpperCase = ( str: string ): any => {
+ */
+export const toUpperCase = (str: string): any => {
     if (str !== '') return str.toLocaleUpperCase()
 }
 /*
  * 存储localStorage
  * */
-export const setStore = ( name: string, content: any ) => {
+export const setStore = (name: string, content: any) => {
     if (!name || !content || !window.localStorage) return
     if (typeof content !== 'string') content = JSON.stringify(content)
     window.localStorage.setItem(name, content)
@@ -21,7 +24,7 @@ export const setStore = ( name: string, content: any ) => {
 /*
  * 获取localStorage
  * */
-export const getStore = ( name: string ) => {
+export const getStore = (name: string) => {
     if (!name || !window.localStorage) return
     let value = window.localStorage.getItem(name)
     if (value !== null) {
@@ -36,7 +39,7 @@ export const getStore = ( name: string ) => {
 /*
  * 删除localStorage
  * */
-export const removeStore = ( name: string ) => {
+export const removeStore = (name: string) => {
     if (!name || !window.localStorage) return
     window.localStorage.removeItem(name)
 }
@@ -50,7 +53,7 @@ export const clearStore = () => {
 /*
  * 存储sessionStorage
  * */
-export const setSession = ( name: string, content: any ): any => {
+export const setSession = (name: string, content: any): any => {
     if (!name || !content || !window.sessionStorage) return
     if (typeof content !== 'string') content = JSON.stringify(content)
     window.sessionStorage.setItem(name, content)
@@ -58,7 +61,7 @@ export const setSession = ( name: string, content: any ): any => {
 /*
  * 获取sessionStorage
  * */
-export const getSession = ( name: string ) => {
+export const getSession = (name: string) => {
     if (!name || !window.sessionStorage) return
     let value: any = window.sessionStorage.getItem(name)
     if (value !== null) {
@@ -73,7 +76,7 @@ export const getSession = ( name: string ) => {
 /*
  * 删除sessionStorage
  * */
-export const removeSession = ( name: string ) => {
+export const removeSession = (name: string) => {
     if (!name || !window.sessionStorage) return
     window.sessionStorage.removeItem(name)
 }
@@ -87,7 +90,7 @@ export const clearSession = () => {
 /*
  * 保留两位小数
  * */
-export const KeepTwoFloat = ( num: number ): any => {
+export const KeepTwoFloat = (num: number): any => {
     const _num = Math.round(num * 100) / 100
     const _arr = _num.toString().split('.')
     if (_arr.length === 1) {
@@ -103,7 +106,7 @@ export const KeepTwoFloat = ( num: number ): any => {
 /*
  * 判断空值
  * */
-export const isEmpty = ( keys: any ) => {
+export const isEmpty = (keys: any) => {
     if (typeof keys === 'string') {
         keys = keys.replace(/\"|&nbsp;|\\/g, '').replace(/(^\s*)|(\s*$)/g, '')
         if (keys === '' || keys === null || keys === 'null' || keys === 'undefined') {
@@ -135,13 +138,13 @@ export const isEmpty = ( keys: any ) => {
 /*
  * 返回两位小数
  * */
-export const getTwoFixedNum = ( num: number ) => {
+export const getTwoFixedNum = (num: number) => {
     return Number(num).toFixed(2)
 }
 /*
  * 获取元素的样式值
  * */
-export const getComStyle = ( el: any, style: any ) => {
+export const getComStyle = (el: any, style: any) => {
     return parseInt(window.getComputedStyle(el, null)[style], 0)
 }
 
@@ -172,7 +175,7 @@ export const getDeviceRatio = () => {
  * 事件处理函数
  * */
 export const eventUtil = {
-    addHandler ( element: any, type: string, handler: any ) {
+    addHandler(element: any, type: string, handler: any) {
         if (element.addEventListener) {
             element.addEventListener(type, handler, false)
         } else if (element.attachEvent) {
@@ -181,7 +184,7 @@ export const eventUtil = {
             element['on' + type] = handler
         }
     },
-    removeHandler ( element: any, type: string, handler: any ) {
+    removeHandler(element: any, type: string, handler: any) {
         if (element.removeEventListener) {
             element.removeEventListener(type, handler, false)
         } else if (element.detachEvent) {
@@ -190,18 +193,18 @@ export const eventUtil = {
             element['on' + type] = null
         }
     },
-    getEvent ( event: any ) {
+    getEvent(event: any) {
         return event ? event : window.event
     },
-    getType ( event: any ) {
+    getType(event: any) {
         return event.type
     },
     // 获取事件源
-    getElement ( event: any ) {
+    getElement(event: any) {
         return event.target || event.srcElement
     },
     // 阻止默认事件比如a链接跳转
-    preventDefault ( event: any ) {
+    preventDefault(event: any) {
         if (event.preventDefault) {
             event.preventDefault()
         } else {
@@ -209,12 +212,43 @@ export const eventUtil = {
         }
     },
     // 阻止事件冒泡
-    stopPropagation ( event: any ) {
+    stopPropagation(event: any) {
         if (event.stopPropagation) {
             event.stopPropagation()
         } else {
             event.cancelBubble = true
         }
     }
+}
+/**
+ * @param fullFlag
+ * 全屏状态
+ */
+export const haddleFullScreen = (fullFlag: boolean) => {
+    const docuMent: any = document
+    const element: any = document.documentElement
+    if (fullFlag) {
+        if (docuMent.exitFullscreen) {
+             docuMent.exitFullscreen()
+        } else if (docuMent.webkitCancelFullScreen) {
+             docuMent.webkitCancelFullScreen()
+        } else if (docuMent.mozCancelFullScreen) {
+             docuMent.mozCancelFullScreen()
+        } else if (docuMent.msExitFullscreen) {
+             docuMent.msExitFullscreen()
+        }
+    } else {
+        if (element.requestFullscreen) {
+             element.requestFullscreen()
+        } else if (element.webkitRequestFullScreen) {
+             element.webkitRequestFullScreen()
+        } else if (element.mozRequestFullScreen) {
+             element.mozRequestFullScreen()
+        } else if (element.msRequestFullscreen) {
+            // IE11
+             element.msRequestFullscreen()
+        }
+    }
+    return !fullFlag
 }
 
