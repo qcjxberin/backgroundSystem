@@ -33,6 +33,7 @@ axios.interceptors.response.use((response: any) => {
 						err = `未知错误 code:${data.code}`
 						break
 				}
+				alert(err)
 				// Toast(err)
 				return Promise.reject(response)
 			} else {
@@ -83,6 +84,7 @@ axios.interceptors.response.use((response: any) => {
 	} else {
 		err.message = '连接服务器失败!'
 	}
+	alert(err.message)
 	// Toast(err.message)
 	return Promise.reject(err)
 })

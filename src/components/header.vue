@@ -37,12 +37,10 @@
 
 		protected layout () {
 			(api.logout(this.$store.getters.getData.mobile) as any).then((respon: any) => {
-				if (respon.success === true) {
-					this.$Message.success(respon.message)
-					this.logoutShow = false
-					clearSession()
-					this.$router.push('/login')
-				}
+				this.$Message.success(respon.message)
+				this.logoutShow = false
+				clearSession()
+				this.$router.replace('/login')
 			})
 		}
 

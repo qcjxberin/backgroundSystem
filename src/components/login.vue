@@ -51,10 +51,13 @@
 						mobile: this.dataInfo.username,
 						password: this.dataInfo.password
 					}) as any).then((respon: any) => {
+						this.$store.dispatch('setUserInfo', {
+							userInfo: respon.data.user
+						})
 						this.$store.dispatch('setToken', {
 							token: respon.data.auth.token
 						}).then(() => {
-							this.$Message.success('登录成功')
+							this.$Message.success(respon.message)
 							this.$router.push('/')
 						})
 					})

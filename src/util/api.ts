@@ -8,13 +8,6 @@ export default {
 			params
 		})
 	},
-	me (params: object) {
-		return new InitConfig({
-			url: '/me',
-			type: 'get',
-			params
-		})
-	},
 	logout (params: object) {
 		return new InitConfig({
 			url: '/logout',

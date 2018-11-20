@@ -8,9 +8,9 @@
                         <i class="iconfont">{{item.iconfont}}</i>
                         {{item.content}}
                     </template>
-                    <template v-if='item.child' v-for='(sitem, sindex) in item.child'>
-                        <Menu-item :key='index + "" + sindex' :name="sitem.url">
-                            {{sitem.content}}
+                    <template v-if='item.child' v-for='(i, s) in item.child'>
+                        <Menu-item :key='s' :name="index + s">
+                            {{i.content}}
                         </Menu-item>
                     </template>
                 </Submenu>
@@ -19,58 +19,60 @@
     </div>
 </template>
 <script lang='ts' type='text/tsx'>
-import Vue from 'vue'
-import Component from 'vue-class-component'
+	import Vue from 'vue'
+	import Component from 'vue-class-component'
 
-@Component({
-  props: {
-    moduleList: Array,
-    titleTip: String
-  }
-})
-export default class SideBar extends Vue {
-	protected actives: string = ''
-    protected setActive(e: any) {
-    	console.log(e)
-    }
-    // protected mounted (){
-    // }
-}
+	@Component({
+		props: {
+			moduleList: Array,
+			titleTip: String
+		}
+	})
+	export default class SideBar extends Vue {
+		protected actives: string = ''
+
+		protected setActive (e: any) {
+			console.log(e)
+		}
+
+		// protected mounted (){
+		// }
+	}
 </script>
 <style type='text/scss' lang='scss'>
-@import url("../style/index.scss");
+    @import url("../style/index.scss");
 
-.wrapperMenu {
-  height: 100%;
-  width: 223px;
-  overflow: hidden;
-  transition: all 0.2s ease-in-out;
-  flex: 0 0 223px;
-  background-color: #f3f3f3;
-  .sideBarMenu {
-    height: 100%;
-    width: 240px;
-    min-width: 240px;
-    max-width: 240px;
-    overflow-y: scroll;
-    background-color: #f3f3f3;
-    .ivu-menu-submenu-title {
-      padding-left: 60px;
+    .wrapperMenu {
+        height: 100%;
+        width: 223px;
+        overflow: hidden;
+        transition: all 0.2s ease-in-out;
+        flex: 0 0 223px;
+        background-color: #f3f3f3;
+        .sideBarMenu {
+            height: 100%;
+            width: 240px;
+            min-width: 240px;
+            max-width: 240px;
+            overflow-y: scroll;
+            background-color: #f3f3f3;
+            .ivu-menu-submenu-title {
+                padding-left: 60px;
+            }
+            .ivu-menu-item {
+                padding-left: 85px !important;
+                font-size: 13px;
+            }
+        }
+        .sideBarMenu:after {
+            width: 0px;
+        }
+        .title {
+            height: 45px;
+            text-align: center;
+            margin: 0 auto;
+            line-height: 45px;
+            font-size: 16px;
+        }
     }
-    .ivu-menu-item {
-      padding-left: 85px !important;
-      font-size: 13px;
-    }
-  }
-  .sideBarMenu:after {
-    width: 0px;
-  }
-  .title {
-    height: 45px;
-    text-align: center;
-    margin: 0 auto;
-    line-height: 45px;
-    font-size: 16px;
-  }
-}
 </style>

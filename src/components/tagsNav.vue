@@ -41,15 +41,15 @@
     </div>
 </template>
 <script lang='ts'>
-    import Vue from 'vue'
-    import Component from 'vue-class-component'
+	import Vue from 'vue'
+	import Component from 'vue-class-component'
 
-    @Component({})
-    export default class TagsNav extends Vue {
-        protected mounted () {
-            window.console.log('TagsNav')
-        }
-    }
+	@Component({})
+	export default class TagsNav extends Vue {
+		protected mounted () {
+			window.console.log('TagsNav')
+		}
+	}
 </script>
 <style type='text/scss' lang='scss' scoped>
     @import url('../style/index.scss');
