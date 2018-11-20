@@ -24,38 +24,40 @@
     </Row>
 </template>
 <script lang='ts'>
-    import Vue from 'vue'
-    import Component from 'vue-class-component'
-    import api from '@/util/api'
-    import { clearSession, haddleFullScreen } from '@/util/util' // getSession
+	import Vue from 'vue'
+	import Component from 'vue-class-component'
+	import api from '@/util/api'
+	import {clearSession, haddleFullScreen} from '@/util/util' // getSession
 
-    @Component({})
-    export default class Header extends Vue {
-        protected logoutShow: boolean = false
-        protected fullscreen: boolean = false
-        protected userName: string = ''
+	@Component({})
+	export default class Header extends Vue {
+		protected logoutShow: boolean = false
+		protected fullscreen: boolean = false
+		protected userName: string = ''
 
-        protected layout () {
-            api.logout(this.$store.getters.getData.mobile).then(( respon: any ) => {
-                if (respon.success === true) {
-                    this.$Message.success(respon.message)
-                    this.logoutShow = false
-                    clearSession()
-                    this.$router.push('/login')
-                }
-            })
-        }
-        protected screen () {
-            this.fullscreen = haddleFullScreen(this.fullscreen)
-        }
-        // protected mounted () {
-        // }
+		protected layout () {
+			(api.logout(this.$store.getters.getData.mobile) as any).then((respon: any) => {
+				if (respon.success === true) {
+					this.$Message.success(respon.message)
+					this.logoutShow = false
+					clearSession()
+					this.$router.push('/login')
+				}
+			})
+		}
 
-        protected isShowAside () {
-            this.$store.dispatch('setAsideShow')
-            console.log(this.$store.getters.getAsideShow)
-        }
-    }
+		protected screen () {
+			this.fullscreen = haddleFullScreen(this.fullscreen)
+		}
+
+		// protected mounted () {
+		// }
+
+		protected isShowAside () {
+			this.$store.dispatch('setAsideShow')
+			console.log(this.$store.getters.getAsideShow)
+		}
+	}
 </script>
 <style type='text/scss' lang='scss' scoped>
     @import url('../style/index.scss');

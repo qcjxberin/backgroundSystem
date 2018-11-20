@@ -1,19 +1,14 @@
 import axios from 'axios'
-import {baseConfig, baseURL} from '@/util/config'
 import {toLowerCase} from '@/util/util'
-import store from '@/store/index'
 
-interface HttpTypes {
-	uri: string,
-	type?: string,
-	params?: object,
-	bool?: boolean,
-	header?: object
+let _servers = ''
+if (process.env.NODE_ENV === 'development') {
+	_servers = 'http://192.168.0.22'
+} else if (process.env.NODE_ENV === 'production') {
+	_servers = 'http://139.196.115.177'
 }
-
 // 全局拦截请求，获取到错误
 axios.interceptors.response.use((response: any) => {
-	// 业务错误处理
 	if (response && response.hasOwnProperty('data')) {
 		const data = response.data
 		if (data && data.hasOwnProperty('code')) {
@@ -47,7 +42,6 @@ axios.interceptors.response.use((response: any) => {
 		return response
 	}
 }, (err: any) => {
-	// 系统错误
 	if (err && err.response) {
 		switch (err.response.status) {
 			case 400:
@@ -92,31 +86,52 @@ axios.interceptors.response.use((response: any) => {
 	// Toast(err.message)
 	return Promise.reject(err)
 })
-export const http = (option: HttpTypes): any => {
-	const options = {
-		uri: option.uri ? option.uri : '', // 路由
-		type: option.type ? option.type : 'post', // 请求类型
-		params: option.params ? option.params : {}, // 数据
-		bool: option.bool ? option.bool : false,
-		header: option.header ? option.header : {}
+
+class InitConfig {
+	protected baseConfig: any = {
+		url: '',
+		method: 'post',
+		baseURL: `${_servers}:8080`,
+		headers: {
+			'Content-Type': 'application/json;charset=UTF-8'
+		},
+		params: {},
+		data: {},
+		timeout: '',
+		withCredentials: false,
+		responseType: 'json',
+		maxContentLength: 3600,
+		validateStatus (status: any) {
+			return status >= 200 && status < 300
+		}
 	}
-	const token = store.getters.getToken
-	console.log(store.getters.getToken)
-	baseConfig.url = baseURL + options.uri
-	baseConfig.method = options.type ? options.type : baseConfig.method
-	baseConfig.headers.Authorization = token ? token : 'null'
-	if (toLowerCase(baseConfig.method) === 'post') {
-		baseConfig.data = JSON.stringify(option)
-	} else if (toLowerCase(baseConfig.method) === 'get' && options.bool) {
-		baseConfig.url += '/' + options.params
-	} else if (toLowerCase(baseConfig.method) === 'get' && !options.bool) {
-		baseConfig.params = options.params
+	protected bool: boolean = false
+
+	constructor (option: any) {
+		this.baseConfig.url = option.url ? this.baseConfig.url + option.url : this.baseConfig.url
+		this.baseConfig.method = option.type ? option.type : this.baseConfig.method
+		this.baseConfig.params = option.params ? option.params : this.baseConfig.params
+		this.baseConfig.headers = option.headers ? option.headers : this.baseConfig.headers
+		this.bool = option.bool ? option.bool : false
+		return this.http()
 	}
-	return new Promise((resolve: any, reject: any) => {
-		axios(baseConfig).then((response: any) => {
-			resolve(response.data)
-		}).catch((error: any) => {
-			reject(error)
+
+	protected http = (): any => {
+		if (toLowerCase(this.baseConfig.method) === 'post') {
+			this.baseConfig.data = JSON.stringify(this.baseConfig.params)
+		} else if (toLowerCase(this.baseConfig.method) === 'get' && this.bool) {
+			this.baseConfig.url += '/' + this.baseConfig.params
+		} else if (toLowerCase(this.baseConfig.method) === 'get' && !this.bool) {
+			this.baseConfig.params = this.baseConfig.params
+		}
+		return new Promise((resolve: any, reject: any) => {
+			axios(this.baseConfig).then((response: any) => {
+				resolve(response.data)
+			}).catch((error: any) => {
+				reject(error)
+			})
 		})
-	})
+	}
 }
+
+export default InitConfig

@@ -1,26 +1,26 @@
-import {http} from '@/util/ajax'
+import InitConfig from '@/util/ajax'
 
 export default {
-    login(params: object) {
-        return http({
-            uri: '/login',
-            type: 'post',
-            params
-        }) // 登录
-    },
-    me(params: object) {
-        return http({
-            uri: '/me',
-            type: 'get',
-            params
-        }) // 获取个人信息
-    },
-    logout (params: object) {
-        return http({
-            uri: '/logout',
-            type: 'get',
-            params,
-            bool: true
-        })
-    }
+	login (params: object) {
+		return new InitConfig({
+			url: '/login',
+			type: 'post',
+			params
+		})
+	},
+	me (params: object) {
+		return new InitConfig({
+			url: '/me',
+			type: 'get',
+			params
+		})
+	},
+	logout (params: object) {
+		return new InitConfig({
+			url: '/logout',
+			type: 'get',
+			params,
+			bool: true
+		})
+	}
 }

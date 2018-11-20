@@ -8,7 +8,7 @@ let configs = [{
   url: 'login',
   method: 'post',
   data: {
-    'code': 0,
+    'code': 1000,
     'message': 'MOCK:: 登录成功',
     'data': {
       'auth': {

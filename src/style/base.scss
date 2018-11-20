@@ -1,14 +1,20 @@
 @charset "utf-8";
-@mixin fz($font-size) {
-  font-size: $font-size;
+/*
+样式初始化函数
+*/
+@mixin dpr($name, $size) {
+  $name: $size;
   [data-dpr="2"] & {
-    font-size: $font-size * 2;
+    $name: $size * 2;
   }
   [data-dpr="3"] & {
-    font-size: $font-size * 3;
+    $name: $size * 3;
   }
 }
-
+@function torem($px){
+  $rem : 75px;
+  @return ($px/$rem) + rem;
+}
 @mixin dpr-img($url,$name,$type:".png") {
   background-image: url($url + "2x/"+ $name + "@2x" + $type);
   [data-dpr="3"] & {
@@ -52,9 +58,4 @@
     text-overflow: ellipsis;
   }
 }
-
-@function torem($px) {
-  @return $px / 75px * 1rem;
-}
-
-$mainColor: #77b59c;
+$bgColor: #F3F8F9;
