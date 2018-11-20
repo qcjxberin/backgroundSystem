@@ -1,21 +1,7 @@
 <template>
     <div class='wrapperMenu'>
         <h2 class='title'>{{titleTip}}</h2>
-        <Menu theme="light" class='sideBarMenu' accordion @on-select='setActive' :active-name="actives">
-            <template v-if='moduleList' v-for='(item, index) in moduleList'>
-                <Submenu :name="index" class='sideBarSubmenu' :key='index' @click=''>
-                    <template slot="title" class='sidebarTitle' :title='item.content'>
-                        <i class="iconfont">{{item.iconfont}}</i>
-                        {{item.content}}
-                    </template>
-                    <template v-if='item.child' v-for='(i, s) in item.child'>
-                        <Menu-item :key='s' :name="index + s">
-                            {{i.content}}
-                        </Menu-item>
-                    </template>
-                </Submenu>
-            </template>
-        </Menu>
+        <div v-if="template" v-html="template"></div>
     </div>
 </template>
 <script lang='ts' type='text/tsx'>
@@ -30,13 +16,28 @@
 	})
 	export default class SideBar extends Vue {
 		protected actives: string = ''
-
+        protected template = ''
 		protected setActive (e: any) {
 			console.log(e)
 		}
+        protected init () {
+	       this.template =  `<Menu theme="light" class='sideBarMenu' accordion @on-select='setActive' :active-name="actives">
+                            <template v-if='moduleList' v-for='(item, index) in moduleList'>
+                                <Submenu :name="index" class='sideBarSubmenu' :key='index' @click=''>
+                                    <template slot="title" class='sidebarTitle' :title='item.content'>
+                                        <i class="iconfont">{{item.iconfont}}</i>{{item.content}}
+                                    </template>
+                                    <template v-if='item.child' v-for='(i, s) in item.child'>
+                                        <Menu-item :key='s' :name="index + s">{{i.content}}</Menu-item>
+                                    </template>
+                                </Submenu>
+                            </template>
+                        </Menu>`
+        }
+		protected mounted (){
+			this.init()
+		}
 
-		// protected mounted (){
-		// }
 	}
 </script>
 <style type='text/scss' lang='scss'>
