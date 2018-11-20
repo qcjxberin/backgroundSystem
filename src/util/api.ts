@@ -1,25 +1,25 @@
 import {http} from '@/util/ajax'
 
 export default {
-    login(parma: any) {
+    login(params: object) {
         return http({
             uri: '/login',
             type: 'post',
-            parmas: parma
+            params
         }) // 登录
     },
-    me(parma: any) {
+    me(params: object) {
         return http({
             uri: '/me',
             type: 'get',
-            parmas: parma
+            params
         }) // 获取个人信息
     },
-    logout (parma: any) {
+    logout (params: object) {
         return http({
             uri: '/logout',
             type: 'get',
-            params: parma,
+            params,
             bool: true
         })
     }

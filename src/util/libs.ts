@@ -10,6 +10,11 @@ import '@/filters'
 import '@/util/viewPort.ts'
 import 'iview/dist/styles/iview.css'
 
+// 开发的时候使用mock
+if (process.env.VUE_APP_MOCK_ENV === 'mock') {
+	import('@/mock' as any)
+}
+
 Vue.use(iView)
 sync(store, router)
 // Object.defineProperty(Vue.prototype, '$moment', {value: moment})

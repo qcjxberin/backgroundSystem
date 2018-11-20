@@ -59,11 +59,7 @@
                                 this.$Message.success('登录成功')
                                 this.getMe()
                             })
-                        } else {
-                            this.$Message.success('登录失败,请重试')
                         }
-                    }).catch((respon) => {
-                        this.$Message.success('登录失败,请重试')
                     })
                 } else {
                     this.$Message.error('参数错误,请重新输入')
@@ -75,11 +71,7 @@
             api.me({}).then((respon: any) => {
                 if (respon.success === true) {
                     this.$router.push('/')
-                } else {
-                    this.$Message.success('数据请求失败,请重试')
                 }
-            }).catch(() => {
-                this.$Message.success('数据请求失败,请重试')
             })
         }
 
