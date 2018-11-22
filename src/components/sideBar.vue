@@ -1,41 +1,62 @@
 <template>
     <div class='wrapperMenu'>
         <h2 class='title'>{{titleTip}}</h2>
-        <div v-if="template" v-html="template"></div>
+        <div>
+            <Menu theme="light" class='sideBarMenu' accordion @on-select='setActive' :active-name="actives">
+                <template v-if='moduleList' v-for='(item, index) in moduleList'>
+                    <Submenu :name="item.iconfont" class='sideBarSubmenu' :key='index' @click=''>
+                        <template slot="title" class='sidebarTitle' :title='item.content'>
+                            <i class="iconfont">{{item.iconfont}}</i>{{item.content}}
+                        </template>
+                        <template v-if='item.child' v-for='(i, s) in item.child'>
+                            <Menu-item :key='s' :name="i.content+ ',' + i.url">{{i.content}}</Menu-item>
+                        </template>
+                    </Submenu>
+                </template>
+            </Menu>
+        </div>
     </div>
 </template>
 <script lang='ts' type='text/tsx'>
 	import Vue from 'vue'
 	import Component from 'vue-class-component'
-
+	// import moment from 'moment'
 	@Component({
 		props: {
 			moduleList: Array,
+			// selectArray: Array,
 			titleTip: String
+			// Actives: String
+		},
+		watch: {
+			'this.$store.getters.getSelectArray' (e) {
+				this.selectArray = e
+			},
+			'this.$store.getters.getActives' (e) {
+				this.actives = e
+			}
 		}
 	})
 	export default class SideBar extends Vue {
-		protected actives: string = ''
-        protected template = ''
+		protected actives: string = this.$store.getters.getActives
+		protected selectArray: any[] = this.$store.getters.getSelectArray || []
+
 		protected setActive (e: any) {
-			console.log(e)
+			this.$router.push(e.split(',')[1])
+			this.selectArray.push(e)
+
+			this.selectArray = this.selectArray.filter((item, index, self) => {
+				return self.indexOf(item) === index
+			})
+			this.$store.dispatch('setSelectArray', {
+				selectArray: JSON.parse(JSON.stringify(this.selectArray))
+			})
+			this.$store.dispatch('setActives', {
+				actives: e.split(',')[1]
+			})
 		}
-        protected init () {
-	       this.template =  `<Menu theme="light" class='sideBarMenu' accordion @on-select='setActive' :active-name="actives">
-                            <template v-if='moduleList' v-for='(item, index) in moduleList'>
-                                <Submenu :name="index" class='sideBarSubmenu' :key='index' @click=''>
-                                    <template slot="title" class='sidebarTitle' :title='item.content'>
-                                        <i class="iconfont">{{item.iconfont}}</i>{{item.content}}
-                                    </template>
-                                    <template v-if='item.child' v-for='(i, s) in item.child'>
-                                        <Menu-item :key='s' :name="index + s">{{i.content}}</Menu-item>
-                                    </template>
-                                </Submenu>
-                            </template>
-                        </Menu>`
-        }
-		protected mounted (){
-			this.init()
+
+		protected mounted () {
 		}
 
 	}

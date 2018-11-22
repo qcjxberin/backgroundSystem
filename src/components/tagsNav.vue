@@ -5,25 +5,10 @@
         </div>
         <div class="tagsNav">
             <div class="tagsList">
-                <Tag type="dot" closable color="primary">标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
-                <Tag type="dot" closable>标签二</Tag>
+                <Tag type="dot" closable :color="actives === item.split(',')[1] ?'primary':''"
+                     v-for="(item, index) in selectArray" @click="getTo(item.split(',')[1])" :key="index">
+                    {{item.split(',')[0]}}
+                </Tag>
             </div>
         </div>
         <div class="btn rightBtn">
@@ -44,10 +29,30 @@
 	import Vue from 'vue'
 	import Component from 'vue-class-component'
 
-	@Component({})
+	@Component({
+		// props: {
+		// 	selectArray: Array,
+		// 	Actives: String
+		// }
+		watcher: {
+			'this.$store.getters.getSelectArray' (e) {
+				this.selectArray = e
+			},
+			'this.$store.getters.getActives' (e) {
+				this.actives = e
+			}
+		}
+	})
 	export default class TagsNav extends Vue {
+		protected actives: string = this.$store.getters.getActives
+		protected selectArray: any[] = this.$store.getters.getSelectArray || []
+
 		protected mounted () {
 			window.console.log('TagsNav')
+		}
+
+		protected getTo (e: string) {
+			this.$router.replace(e)
 		}
 	}
 </script>

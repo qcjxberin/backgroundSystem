@@ -3,23 +3,35 @@ import Vuex from 'vuex'
 import sideBar from './modules/sideBar'
 import {getSession, isEmpty, setSession} from '@/util/util'
 
-Vue.use(Vuex)
 const types = {
 	SET_TOKEN: 'SET_TOKEN', // token
-	SET_USER_INFO: 'SET_USER_INFO'
+	SET_USER_INFO: 'SET_USER_INFO',
+	SELECT_ARRAY: 'SELECT_ARRAY', // 激活的模块
+	SET_ACTIVES: 'SET_ACTIVES' // 当前激活的模块path
 }
 const state = {
 	token: '',
-	userInfo: ''
+	userInfo: '',
+	selectArray: [],
+	actives: ''
 }
 const mutations = {
 	[types.SET_TOKEN] (_state: any, token: string) {
 		setSession('token', token)
 		_state.token = token
 	},
-	[types.SET_USER_INFO] (_state:any, userInfo: any){
+	[types.SET_USER_INFO] (_state: any, userInfo: any) {
 		setSession('userInfo', userInfo)
 		_state.userInfo = userInfo
+	},
+	[types.SELECT_ARRAY] (_state: any, selectArray: any) {
+		setSession('selectArray', selectArray)
+		_state.selectArray = selectArray
+		console.log(_state.selectArray)
+	},
+	[types.SET_ACTIVES] (_state: any, actives: any) {
+		setSession('actives', actives)
+		_state.actives = actives
 	}
 }
 const actions = {
@@ -29,6 +41,13 @@ const actions = {
 	setUserInfo: (_vuex: any, data: any) => {
 		_vuex.commit(types.SET_USER_INFO, data.userInfo)
 	},
+	setSelectArray: (_vuex: any, data: any) => {
+		console.log(data)
+		_vuex.commit(types.SELECT_ARRAY, data.selectArray)
+	},
+	setActives: (_vuex: any, data: any) => {
+		_vuex.commit(types.SET_ACTIVES, data.actives)
+	}
 }
 const getters = {
 	getToken: (_state: any) => {
@@ -44,9 +63,24 @@ const getters = {
 		} else {
 			return _state.userInfo
 		}
+	},
+	getSelectArray: (_state: any) => {
+		if (isEmpty(_state.selectArray)) {
+			return getSession('selectArray')
+		} else {
+			return _state.selectArray
+		}
+	},
+	getActives: (_state: any) => {
+		if (isEmpty(_state.actives)) {
+			return getSession('actives')
+		} else {
+			return _state.actives
+		}
 	}
 
 }
+Vue.use(Vuex)
 const store = new Vuex.Store({
 	state,
 	mutations,
