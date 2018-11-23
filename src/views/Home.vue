@@ -46,6 +46,7 @@
         height: 100%;
         display: flex;
         flex-direction: row;
+        overflow: hidden;
         .main {
             flex: auto;
             -webkit-box-sizing: border-box;
@@ -53,6 +54,7 @@
             width: 100%;
             height: 100%;
             background-color: #f9f9f9;
+            overflow: hidden;
             .dashWaper {
                 overflow: auto;
                 height: calc(100% - 95px);

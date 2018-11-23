@@ -1,7 +1,7 @@
 <template>
     <div class='wrapperMenu'>
         <h2 class='title'>{{titleTip}}</h2>
-        <div>
+        <div class="wrapper">
             <Menu theme="light" class='sideBarMenu' accordion @on-select='setActive' :active-name="actives">
                 <template v-if='moduleList' v-for='(item, index) in moduleList'>
                     <Submenu :name="item.iconfont" class='sideBarSubmenu' :key='index' @click=''>
@@ -20,7 +20,8 @@
 <script lang='ts' type='text/tsx'>
 	import Vue from 'vue'
 	import Component from 'vue-class-component'
-	// import moment from 'moment'
+	import {isEmpty} from '@/util/util'
+
 	@Component({
 		props: {
 			moduleList: Array,
@@ -34,8 +35,8 @@
 	})
 	export default class SideBar extends Vue {
 		protected setActive (e: any) {
-			const selectArray: any[] = this.$store.getters.getSelectArray.slice() || []
-			this.$router.push(e.split(',')[1])
+			const selectArray: any[] = isEmpty(this.$store.getters.getSelectArray) ? [] : this.$store.getters.getSelectArray.slice()
+				this.$router.push(e.split(',')[1])
 			selectArray.push(e)
 			const getselectArray: any[] = selectArray.filter((item: any, index: number, self: any) => {
 				return self.indexOf(item) === index
@@ -54,16 +55,22 @@
 
     .wrapperMenu {
         height: 100%;
-        width: 223px;
+        width: 240px;
         overflow: hidden;
         transition: all 0.2s ease-in-out;
         flex: 0 0 223px;
         background-color: #f3f3f3;
-        .sideBarMenu {
-            height: 100%;
+        .wrapper {
             width: 240px;
-            min-width: 240px;
-            max-width: 240px;
+            overflow: scroll;
+            height: 100%;
+        }
+        .sideBarMenu {
+            height: calc(100% - 30px);
+            width: 100%;
+            /*width: 240px;*/
+            /*min-width: 240px;*/
+            /*max-width: 240px;*/
             overflow-y: scroll;
             background-color: #f3f3f3;
             .ivu-menu-submenu-title {
