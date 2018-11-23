@@ -24,41 +24,29 @@
 	@Component({
 		props: {
 			moduleList: Array,
-			// selectArray: Array,
 			titleTip: String
-			// Actives: String
 		},
-		watch: {
-			'this.$store.getters.getSelectArray' (e) {
-				this.selectArray = e
-			},
-			'this.$store.getters.getActives' (e) {
-				this.actives = e
+		computed: {
+			actives () {
+				return this.$store.getters.getActives
 			}
 		}
 	})
 	export default class SideBar extends Vue {
-		protected actives: string = this.$store.getters.getActives
-		protected selectArray: any[] = this.$store.getters.getSelectArray || []
-
 		protected setActive (e: any) {
+			const selectArray: any[] = this.$store.getters.getSelectArray.slice() || []
 			this.$router.push(e.split(',')[1])
-			this.selectArray.push(e)
-
-			this.selectArray = this.selectArray.filter((item, index, self) => {
+			selectArray.push(e)
+			const getselectArray: any[] = selectArray.filter((item: any, index: number, self: any) => {
 				return self.indexOf(item) === index
 			})
 			this.$store.dispatch('setSelectArray', {
-				selectArray: JSON.parse(JSON.stringify(this.selectArray))
+				selectArray: getselectArray
 			})
 			this.$store.dispatch('setActives', {
-				actives: e.split(',')[1]
+				actives: e
 			})
 		}
-
-		protected mounted () {
-		}
-
 	}
 </script>
 <style type='text/scss' lang='scss'>

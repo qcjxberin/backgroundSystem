@@ -5,8 +5,9 @@
         </div>
         <div class="tagsNav">
             <div class="tagsList">
-                <Tag type="dot" closable :color="actives === item.split(',')[1] ?'primary':''"
-                     v-for="(item, index) in selectArray" @click="getTo(item.split(',')[1])" :key="index">
+                <Tag type="dot" closable v-if="selectArray" v-for="(item, index) in selectArray"
+                     :color="getActives.split(',')[1] === item.split(',')[1] ?'primary':''" :key="index"
+                     @on-close="handleClose(item)">
                     {{item.split(',')[0]}}
                 </Tag>
             </div>
@@ -30,29 +31,36 @@
 	import Component from 'vue-class-component'
 
 	@Component({
-		// props: {
-		// 	selectArray: Array,
-		// 	Actives: String
-		// }
-		watcher: {
-			'this.$store.getters.getSelectArray' (e) {
-				this.selectArray = e
+		computed: {
+			selectArray () {
+				return this.$store.getters.getSelectArray
 			},
-			'this.$store.getters.getActives' (e) {
-				this.actives = e
+			getActives () {
+				return this.$store.getters.getActives
 			}
 		}
 	})
 	export default class TagsNav extends Vue {
-		protected actives: string = this.$store.getters.getActives
-		protected selectArray: any[] = this.$store.getters.getSelectArray || []
 
-		protected mounted () {
-			window.console.log('TagsNav')
-		}
-
-		protected getTo (e: string) {
-			this.$router.replace(e)
+		protected handleClose (name: any) {
+			const arrList: any[] = this.selectArray.slice()
+			const actives = this.getActives.slice()
+			const curIndex = arrList.indexOf(actives)
+			const tarIndex = arrList.indexOf(name)
+			if (curIndex === tarIndex && arrList.length > 0) {
+				if (tarIndex < arrList.length) {
+					actives = arrList[curIndex + 1]
+				} else {
+					actives = arrList[curIndex - 1]
+				}
+			}
+			arrList.splice(arrList.indexOf(name), 1)
+			this.$store.dispatch('setSelectArray', {
+				selectArray: arrList
+			})
+			this.$store.dispatch('setActives', {
+				actives: actives
+			})
 		}
 	}
 </script>
