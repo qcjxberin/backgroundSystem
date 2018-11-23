@@ -2,10 +2,10 @@
     <Layout class="home">
         <SideBar v-if=moduleList class='sidebar' :moduleList='moduleList' :titleTip='titleTip'></SideBar>
         <div class="main">
-            <Header></Header>
+            <Header :moduleList='moduleList'></Header>
             <TagsNav></TagsNav>
             <div class="dashWaper">
-                <router-view/>
+                <router-view><router-view></router-view></router-view>
             </div>
         </div>
         <Footer></Footer>
@@ -35,8 +35,6 @@
 
 		protected titleTip = '后台管理系统'
 		protected moduleList: any = moduleList  // 获取左侧的导航模块
-		// protected actives: string = this.$store.getters.getActives
-		// protected selectArray: any[] = this.$store.getters.getSelectArray || []
 	}
 </script>
 <style type='text/scss' lang='scss' scoped>

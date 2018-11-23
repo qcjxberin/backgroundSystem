@@ -2,9 +2,10 @@
     <div class='wrapperMenu'>
         <h2 class='title'>{{titleTip}}</h2>
         <div class="wrapper">
-            <Menu theme="light" class='sideBarMenu' accordion @on-select='setActive' :active-name="actives">
+            <Menu theme="light" class='sideBarMenu' accordion @on-select='setActive' :active-name="actives"
+                  :open-names="openNameStr" ref='sideBar'>
                 <template v-if='moduleList' v-for='(item, index) in moduleList'>
-                    <Submenu :name="item.iconfont" class='sideBarSubmenu' :key='index' @click=''>
+                    <Submenu :name="item.content" class='sideBarSubmenu' :key='index'>
                         <template slot="title" class='sidebarTitle' :title='item.content'>
                             <i class="iconfont">{{item.iconfont}}</i>{{item.content}}
                         </template>
@@ -31,12 +32,37 @@
 			actives () {
 				return this.$store.getters.getActives
 			}
+		},
+		watch: {
+			actives () {
+				this.openName()
+			}
 		}
 	})
 	export default class SideBar extends Vue {
+		protected openNameStr: any[] = []
+
+		protected mounted () {
+			this.openName()
+		}
+
+		protected openName () {
+			let _this = this
+			_this.moduleList.forEach((item, index) => {
+				item.child.forEach((i, s) => {
+					if (item.child[s].url === this.$store.getters.getActives.split(',')[1]) {
+						_this.openNameStr = [item.content]
+					}
+				})
+			})
+			_this.$nextTick(() => {
+				this.$refs.sideBar.updateOpened()
+			})
+		}
+
 		protected setActive (e: any) {
 			const selectArray: any[] = isEmpty(this.$store.getters.getSelectArray) ? [] : this.$store.getters.getSelectArray.slice()
-				this.$router.push(e.split(',')[1])
+			this.$router.push(e.split(',')[1])
 			selectArray.push(e)
 			const getselectArray: any[] = selectArray.filter((item: any, index: number, self: any) => {
 				return self.indexOf(item) === index

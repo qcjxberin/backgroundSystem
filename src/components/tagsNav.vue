@@ -61,7 +61,7 @@
 				})
 			} else if (name === '关闭其他') {
 				this.$store.dispatch('setSelectArray', {
-					selectArray: this.$store.getters.getSelectArray.slice(this.$store.getters.getSelectArray.indexOf(this.$store.getters.getActives), 1)
+					selectArray: this.$store.getters.getSelectArray.slice().splice(this.$store.getters.getSelectArray.indexOf(this.$store.getters.getActives), 1)
 				})
 			}
 		}
@@ -168,7 +168,6 @@
             top: 0px;
             height: 40px;
             line-height: 40px;
-            z-index: 999999;
             background-color: #F0F0F0;
         }
     }

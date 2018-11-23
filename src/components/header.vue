@@ -7,18 +7,18 @@
                     <Icon type="ios-home-outline" :size='16'></Icon>
                     首页
                 </Breadcrumb-item>
-                <Breadcrumb-item href="/components/breadcrumb">用户管理</Breadcrumb-item>
-                <Breadcrumb-item>用户列表</Breadcrumb-item>
+                <Breadcrumb-item :href="actives.split(',')[1]">{{openNameStr}}</Breadcrumb-item>
+                <Breadcrumb-item :href="actives.split(',')[1]">{{actives.split(',')[0]}}</Breadcrumb-item>
             </Breadcrumb>
         </Col>
         <Col span="16" class='headerRight'>
-            <i class='headerUserName'>hi! {{userName?userName:''}}　</i>
+            <i class='headerUserName'>hi! {{userName?userName:'好欣晴移动医疗'}}　</i>
             <i class="iconfont headerIcon" :title='fullscreen?"取消全屏":"全屏"' @click='screen()'>{{fullscreen?'':''}}</i>
-            <i class="iconfont headerIcon" title='设置'></i>
-            <i class="iconfont headerIcon" title='退出' @click='logoutShow = true'></i>
+            <!--<i class="iconfont headerIcon" title='设置'></i>-->
+            <i class="iconfont headerIcon" title='退出' @click='logoutFlag = true'></i>
         </Col>
-        <Modal title="退出系统" v-model="logoutShow" :styles="{top: '40%'}" :closable="false" @on-ok="layout"
-               @on-cancel="logoutShow = false">
+        <Modal title="退出系统" v-model="logoutFlag" :styles="{top: '40%'}" :closable="false" @on-ok="layout"
+               @on-cancel="logoutFlag = false">
             <p>确认要退出系统么?</p>
         </Modal>
     </Row>
@@ -29,16 +29,46 @@
 	import api from '@/util/api'
 	import {clearSession, haddleFullScreen} from '@/util/util' // getSession
 
-	@Component({})
+	@Component({
+			props: {
+				moduleList: Array
+			},
+		computed: {
+			actives () {
+				return this.$store.getters.getActives
+			}
+		},
+		watch: {
+			actives () {
+				this.openName()
+			}
+		}
+	})
 	export default class Header extends Vue {
-		protected logoutShow: boolean = false
+		protected logoutFlag: boolean = false
 		protected fullscreen: boolean = false
 		protected userName: string = ''
+		protected openNameStr: string = ''
+
+		protected openName () {
+			let _this = this
+			_this.moduleList.forEach((item, index) => {
+				item.child.forEach((i, s) => {
+					if (item.child[s].url === this.$store.getters.getActives.split(',')[1]) {
+						_this.openNameStr = item.content
+					}
+				})
+			})
+		}
+
+		protected mounted () {
+			this.openName()
+		}
 
 		protected layout () {
 			(api.logout(this.$store.getters.getData.mobile) as any).then((respon: any) => {
 				this.$Message.success(respon.message)
-				this.logoutShow = false
+				this.logoutFlag = false
 				clearSession()
 				this.$router.replace('/login')
 			})
