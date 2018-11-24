@@ -30,9 +30,9 @@
 	import {clearSession, haddleFullScreen} from '@/util/util' // getSession
 
 	@Component({
-			props: {
-				moduleList: Array
-			},
+		props: {
+			moduleList: Array
+		},
 		computed: {
 			actives () {
 				return this.$store.getters.getActives
@@ -40,7 +40,7 @@
 		},
 		watch: {
 			actives () {
-				this.openName()
+				(this as any).openName()
 			}
 		}
 	})
@@ -51,9 +51,9 @@
 		protected openNameStr: string = ''
 
 		protected openName () {
-			let _this = this
-			_this.moduleList.forEach((item, index) => {
-				item.child.forEach((i, s) => {
+			const _this: any = (this as any)
+			(this as any).moduleList.forEach((item: any) => {
+				item.child.forEach((i: any, s: number) => {
 					if (item.child[s].url === this.$store.getters.getActives.split(',')[1]) {
 						_this.openNameStr = item.content
 					}

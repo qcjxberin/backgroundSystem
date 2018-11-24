@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import iView from 'iview'
+import iview from 'iview'
 import moment from 'moment'
 import { sync } from 'vuex-router-sync'
 import '@/registerServiceWorker'
@@ -15,7 +15,7 @@ if (process.env.VUE_APP_MOCK_ENV === 'mock') {
 	import('@/mock' as any)
 }
 
-Vue.use(iView)
+Vue.use(iview)
 sync(store, router)
 // Object.defineProperty(Vue.prototype, '$moment', {value: moment})
 const libs: any = [

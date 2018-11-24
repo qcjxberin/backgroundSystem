@@ -54,13 +54,14 @@
 			this.$router.push(name.split(',')[1])
 		}
 
-		protected closeDropdown (name) {
+		protected closeDropdown (name: string) {
 			if (name === '关闭所有') {
 				this.$store.dispatch('setSelectArray', {
 					selectArray: []
 				})
 			} else if (name === '关闭其他') {
 				this.$store.dispatch('setSelectArray', {
+					/*tslint:disable-next-line*/
 					selectArray: this.$store.getters.getSelectArray.slice().splice(this.$store.getters.getSelectArray.indexOf(this.$store.getters.getActives), 1)
 				})
 			}
@@ -68,7 +69,7 @@
 
 		protected handleClose (name: any) {
 			const arrList: any[] = this.$store.getters.getSelectArray.slice()
-			const actives: string = this.$store.getters.getActives.slice()
+			const actives: string = this.$store.getters.getActives
 			const curIndex = arrList.indexOf(actives)
 			const tarIndex = arrList.indexOf(name)
 			if (arrList.length === 1) {
@@ -76,18 +77,16 @@
 			}
 			if (curIndex === tarIndex && arrList.length > 0) {
 				if (tarIndex < arrList.length) {
-					actives = arrList[curIndex + 1]
+                  (actives as any) = arrList[curIndex + 1]
 				} else {
-					actives = arrList[curIndex - 1]
+                  (actives as any) = arrList[curIndex - 1]
 				}
 			}
 			arrList.splice(arrList.indexOf(name), 1)
 			this.$store.dispatch('setSelectArray', {
 				selectArray: arrList
 			})
-			this.$store.dispatch('setActives', {
-				actives: actives
-			})
+			this.$store.dispatch('setActives', {actives})
 		}
 	}
 </script>

@@ -7,7 +7,8 @@ const types = {
 	SET_TOKEN: 'SET_TOKEN', // token
 	SET_USER_INFO: 'SET_USER_INFO',
 	SELECT_ARRAY: 'SELECT_ARRAY', // 激活的模块
-	SET_ACTIVES: 'SET_ACTIVES' // 当前激活的模块path
+	SET_ACTIVES: 'SET_ACTIVES', // 当前激活的模块path
+	SET_SIDEBAR_FLAG: 'SET_SIDEBAR_FLAG' // 左侧导航状态栏
 }
 const state = {
 	token: '',

@@ -35,7 +35,7 @@
 		},
 		watch: {
 			actives () {
-				this.openName()
+				(this as any).openName()
 			}
 		}
 	})
@@ -47,20 +47,21 @@
 		}
 
 		protected openName () {
-			let _this = this
-			_this.moduleList.forEach((item, index) => {
-				item.child.forEach((i, s) => {
+			const _this: any = (this as any)
+            (this as any).moduleList.forEach((item: any) => {
+				item.child.forEach((i: any, s: number) => {
 					if (item.child[s].url === this.$store.getters.getActives.split(',')[1]) {
 						_this.openNameStr = [item.content]
 					}
 				})
 			})
 			_this.$nextTick(() => {
-				this.$refs.sideBar.updateOpened()
+              (this.$refs.sideBar as any).updateOpened()
 			})
 		}
 
 		protected setActive (e: any) {
+			/* tslint:disable-next-line*/
 			const selectArray: any[] = isEmpty(this.$store.getters.getSelectArray) ? [] : this.$store.getters.getSelectArray.slice()
 			this.$router.push(e.split(',')[1])
 			selectArray.push(e)

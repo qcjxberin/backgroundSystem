@@ -26,6 +26,7 @@
 
 	@Component({})
 	export default class DoctorManagementList extends Vue {
+		/*tslint:disable*/
 		protected columns8: any[] = [
 			{
 				'title': 'Name',
@@ -49,7 +50,7 @@
 					}
 				],
 				filterMultiple: false,
-				filterMethod (value, row) {
+				filterMethod (value: number, row: any) {
 					if (value === 1) {
 						return row.show > 4000
 					} else if (value === 2) {
