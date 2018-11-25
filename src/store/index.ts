@@ -14,7 +14,8 @@ const state = {
 	token: '',
 	userInfo: '',
 	selectArray: [],
-	actives: ''
+	actives: '',
+	siderBarFlag: false
 }
 const mutations = {
 	[types.SET_TOKEN] (_state: any, token: string) {
@@ -33,6 +34,10 @@ const mutations = {
 	[types.SET_ACTIVES] (_state: any, actives: any) {
 		setSession('actives', actives)
 		_state.actives = actives
+	},
+	[types.SET_SIDEBAR_FLAG] (_state: any, siderBarFlag: boolean) {
+		setSession('siderBarFlag', siderBarFlag)
+		_state.siderBarFlag = siderBarFlag
 	}
 }
 const actions = {
@@ -48,6 +53,9 @@ const actions = {
 	},
 	setActives: (_vuex: any, data: any) => {
 		_vuex.commit(types.SET_ACTIVES, data.actives)
+	},
+	setSiderBarFlag: (_vuex: any, data: any) => {
+		_vuex.commit(types.SET_SIDEBAR_FLAG, data.siderBarFlag)
 	}
 }
 const getters = {
@@ -77,6 +85,13 @@ const getters = {
 			return getSession('actives')
 		} else {
 			return _state.actives
+		}
+	},
+	getSiderBarFlag: (_state: any) => {
+		if (isEmpty(_state.siderBarFlag)) {
+			return getSession('siderBarFlag')
+		} else {
+			return _state.siderBarFlag
 		}
 	}
 

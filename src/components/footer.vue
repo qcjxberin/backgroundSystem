@@ -25,5 +25,6 @@
         bottom: 0px;
         text-align: center;
         background-color: #f9f9f9;
+        z-index: 10;
     }
 </style>

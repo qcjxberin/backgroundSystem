@@ -6,12 +6,12 @@
             </FormItem>
             <FormItem prop="user">
                 <Input type="text" v-model="dataInfo.username" placeholder="用户名">
-                    <Icon type="ios-person-outline" slot="prepend"></Icon>
+                <Icon type="ios-person-outline" slot="prepend"></Icon>
                 </Input>
             </FormItem>
             <FormItem prop="password">
                 <Input type="password" v-model="dataInfo.password" placeholder="密码" autocomplete='off'>
-                    <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                <Icon type="ios-lock-outline" slot="prepend"></Icon>
                 </Input>
             </FormItem>
             <FormItem class='loading'>
@@ -57,7 +57,7 @@
 						this.$store.dispatch('setToken', {
 							token: respon.data.auth.token
 						}).then(() => {
-							this.$Message.success(respon.message)
+							(this as any).$Message.success(respon.message)
 							this.$router.push('/')
 						})
 					})

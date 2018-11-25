@@ -47,6 +47,7 @@
 		}
 	})
 	export default class TagsNav extends Vue {
+
 		protected selectActives (name: any) {
 			this.$store.dispatch('setActives', {
 				actives: name
@@ -77,9 +78,9 @@
 			}
 			if (curIndex === tarIndex && arrList.length > 0) {
 				if (tarIndex < arrList.length) {
-                  (actives as any) = arrList[curIndex + 1]
+					(actives as any) = arrList[curIndex + 1]
 				} else {
-                  (actives as any) = arrList[curIndex - 1]
+					(actives as any) = arrList[curIndex - 1]
 				}
 			}
 			arrList.splice(arrList.indexOf(name), 1)

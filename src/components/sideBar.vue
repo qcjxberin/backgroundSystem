@@ -1,10 +1,11 @@
 <template>
-    <div class='wrapperMenu'>
-        <h2 class='title'>{{titleTip}}</h2>
-        <div class="wrapper">
-            <Menu theme="light" class='sideBarMenu' accordion @on-select='setActive' :active-name="actives"
+    <div :class="!siderBarFlag? 'wrapperMenu':'wrapperMenuMini'">
+        <h2 class='title' v-show="!siderBarFlag">{{titleTip}}</h2>
+        <div :class="!siderBarFlag? 'wrapper':'wrapperMini'">
+            <Menu v-if="!siderBarFlag" theme="light" class='sideBarMenu' accordion @on-select='setActive'
+                  :active-name="actives"
                   :open-names="openNameStr" ref='sideBar'>
-                <template v-if='moduleList' v-for='(item, index) in moduleList'>
+                <template v-show='moduleList' v-for='(item, index) in moduleList'>
                     <Submenu :name="item.content" class='sideBarSubmenu' :key='index'>
                         <template slot="title" class='sidebarTitle' :title='item.content'>
                             <i class="iconfont">{{item.iconfont}}</i>{{item.content}}
@@ -13,6 +14,18 @@
                             <Menu-item :key='s' :name="i.content+ ',' + i.url">{{i.content}}</Menu-item>
                         </template>
                     </Submenu>
+                </template>
+            </Menu>
+            <Menu v-if="siderBarFlag" theme="light" class='sideBarMenuMini' accordion @on-select='setActive'
+                  :active-name="actives"
+                  :open-names="openNameStr" ref='sideBar' width='50PX'>
+                <template v-show='moduleList' v-for='(item, index) in moduleList'>
+                    <MenuItem :name="item.content" class='sideBarSubmenu' :key='index'>
+                        <i class="iconfont">{{item.iconfont}}</i>
+                        <!--<template v-if='item.child' v-for='(i, s) in item.child'>-->
+                        <!--<Menu-item :key='s' :name="i.content+ ',' + i.url">{{i.content}}</Menu-item>-->
+                        <!--</template>-->
+                    </MenuItem>
                 </template>
             </Menu>
         </div>
@@ -31,6 +44,9 @@
 		computed: {
 			actives () {
 				return this.$store.getters.getActives
+			},
+			siderBarFlag () {
+				return this.$store.getters.getSiderBarFlag
 			}
 		},
 		watch: {
@@ -44,19 +60,22 @@
 
 		protected mounted () {
 			this.openName()
+			this.$nextTick(() => {
+				(this.$refs.sideBar as any).updateOpened()
+			})
 		}
 
 		protected openName () {
-			const _this: any = (this as any)
-            (this as any).moduleList.forEach((item: any) => {
+			// @ts-ignore
+			(this as any).moduleList.forEach((item: any) => {
 				item.child.forEach((i: any, s: number) => {
 					if (item.child[s].url === this.$store.getters.getActives.split(',')[1]) {
-						_this.openNameStr = [item.content]
+						this.openNameStr = [item.content]
 					}
 				})
 			})
-			_this.$nextTick(() => {
-              (this.$refs.sideBar as any).updateOpened()
+			this.$nextTick(() => {
+				(this.$refs.sideBar as any).updateOpened()
 			})
 		}
 
@@ -87,17 +106,15 @@
         transition: all 0.2s ease-in-out;
         flex: 0 0 223px;
         background-color: #f3f3f3;
+        z-index: 12;
         .wrapper {
             width: 240px;
-            overflow: scroll;
             height: 100%;
+            overflow: hidden;
         }
         .sideBarMenu {
             height: calc(100% - 30px);
             width: 100%;
-            /*width: 240px;*/
-            /*min-width: 240px;*/
-            /*max-width: 240px;*/
             overflow-y: scroll;
             background-color: #f3f3f3;
             .ivu-menu-submenu-title {
@@ -117,6 +134,29 @@
             margin: 0 auto;
             line-height: 45px;
             font-size: 16px;
+        }
+    }
+
+    .wrapperMenuMini {
+        height: 100%;
+        overflow: hidden;
+        transition: all 0.2s ease-in-out;
+        flex: 0 0 50px;
+        background-color: #f3f3f3;
+        z-index: 11;
+        .wrapperMini {
+            width: 50px;
+            height: 100%;
+            overflow: hidden;
+            .sideBarMenuMini {
+                width: 50px;
+                background-color: #f3f3f3;
+                height: 100%;
+                padding-top: 44px;
+                .sideBarSubmenu {
+                    padding: 14px 17px;
+                }
+            }
         }
     }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <Row class='header'>
         <Col span="8">
-            <i class="iconfont headerIcon" @click='isShowAside'></i>
+            <i class="iconfont headerIcon" :class="siderBarFlag?'siderBarFlag': 'siderBarFlagFalse'" @click="siderBarFlag = !siderBarFlag"></i>
             <Breadcrumb>
                 <Breadcrumb-item href="/">
                     <Icon type="ios-home-outline" :size='16'></Icon>
@@ -41,6 +41,11 @@
 		watch: {
 			actives () {
 				(this as any).openName()
+			},
+			siderBarFlag () {
+				this.$store.dispatch('setSiderBarFlag', {
+					siderBarFlag: (this as any).siderBarFlag
+				})
 			}
 		}
 	})
@@ -49,13 +54,14 @@
 		protected fullscreen: boolean = false
 		protected userName: string = ''
 		protected openNameStr: string = ''
+		protected siderBarFlag: boolean = false
 
 		protected openName () {
-			const _this: any = (this as any)
+			// @ts-ignore
 			(this as any).moduleList.forEach((item: any) => {
 				item.child.forEach((i: any, s: number) => {
 					if (item.child[s].url === this.$store.getters.getActives.split(',')[1]) {
-						_this.openNameStr = item.content
+						this.openNameStr = item.content
 					}
 				})
 			})
@@ -67,7 +73,7 @@
 
 		protected layout () {
 			(api.logout(this.$store.getters.getData.mobile) as any).then((respon: any) => {
-				this.$Message.success(respon.message)
+				(this as any).$Message.success(respon.message)
 				this.logoutFlag = false
 				clearSession()
 				this.$router.replace('/login')
@@ -76,14 +82,6 @@
 
 		protected screen () {
 			this.fullscreen = haddleFullScreen(this.fullscreen)
-		}
-
-		// protected mounted () {
-		// }
-
-		protected isShowAside () {
-			this.$store.dispatch('setAsideShow')
-			console.log(this.$store.getters.getAsideShow)
 		}
 	}
 </script>
@@ -127,6 +125,14 @@
             font-size: 22px;
             border: none;
             box-sizing: border-box;
+        }
+        .siderBarFlag{
+            transform:rotate(90deg);
+            transition: 0.4s ease-in-out;
+        }
+        .siderBarFlagFalse{
+            transform:rotate(0deg);
+            transition: 0.4s ease-in-out;
         }
         .headerIcon:hover {
             color: #2d8cf0;
